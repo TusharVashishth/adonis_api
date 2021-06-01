@@ -24,7 +24,7 @@ import Mail from "@ioc:Adonis/Addons/Mail";
 
 Route.get("/", async () => {
   return { hello: "world" };
-});
+}).prefix("/adonis-api");
 
 Route.group(() => {
   Route.post("/register", "UserAuthsController.register");
@@ -50,7 +50,7 @@ Route.group(() => {
     // return withPost;
     return data;
   });
-}).prefix("api");
+}).prefix("/adonis-api/api");
 
 Route.post("/test-mail", async () => {
   await Mail.sendLater((msg) => {
@@ -61,4 +61,4 @@ Route.post("/test-mail", async () => {
   });
 
   return "Mail sent successfully!";
-});
+}).prefix("/adonis-api");
