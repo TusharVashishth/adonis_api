@@ -1,3 +1,4 @@
+"--ignore-ts-error";
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Post from "App/Models/Post";
 import PostValidator from "App/Validators/PostValidator";
@@ -18,10 +19,15 @@ export default class PostsController {
     await payload?.image.move(Application.publicPath("images"), {
       name: fileName,
     });
-    payload.image = fileName;
-    payload.image_url = Env.get("DOMAIN") + "/images/" + fileName;
+    let image_url = Env.get("DOMAIN") + "/images/" + fileName;
 
-    await Post.create(payload);
+    await Post.create({
+      title: payload.title,
+      user_id: payload.user_id,
+      description: payload.description,
+      image: fileName,
+      image_url: image_url,
+    });
     return response.json({
       status: 200,
       message: "Post Created successfully!",
